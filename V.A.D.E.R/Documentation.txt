@@ -1,0 +1,101 @@
+V.A.D.E.R. is a collection of scripts (some new, some reused), and is intended to make things easier by 
+consolidating scripts and frequent actions into one place. All logging from existing scripts has been preserved.
+
+Please email bugs to DLetts@amctheatres.com. Suggestions for changes & additional functionality are welcome!
+
+Changelog:
+-01/26/2024: v1.1
+• Updated "Remove Kiosk Bundle/Monitor" scripts (Remove_KioskHD.ps1 & Remove_KioskHD_And_Monitor.ps1) to version provided by NCR (Remove-CrewlinkApps.ps1)
+• Updated Crewlink installation script to install Kiosk Monitor version 1.8.5.0
+• Added support for fixing Crewlink/Kiosk Bundle Installation Errors to both POS Menu & Kiosk Menu
+• Added descriptions for different options. (e.g. Once you choose option 3 from the POS menu there will be an explanation on what that option does)
+
+-01/29/2024: v1.1.1
+• Updated Crewlink installation script to install Kiosk Monitor version 1.9.1.0
+
+-05/09/2024: v1.2
+• Fixed credentials for "Remove Kiosk Bundle/Monitor" from the KIOSK menu
+• Updated the naming convention in the POS menu. "Remove Kiosk Bundle/Monitor" is now "Remove Crewlink from POS"
+• Added new scripts to the POS & KIOSK menus: "Get POS OS Version Report" & "Get KIOSK OS Version Report"
+• Updated "Install Crewlink on POS". Script now dynamically installs the latest version, uniquely tailored for every site as updates are released at different times.
+    (It accomplishes this by querying "C:\Staging\_UUUUconfig_PRIVATE\CrewLink_0.Deploy&InstallOnPOS.cmd" to know which version to install)
+
+Overview:
+
+V.A.D.E.R. is split into different menus, each with their own options for standard tasks:
+
+POS Menu:
+
+1. Launch RSWATCH: Launches rswatch in a new window.
+2. Launch Recursive Ping: Launches a constant ping to an ip address in a new window.
+3. Reboot Terminals: Reboots all terminals listed in the notepad. Remove unwanted terminals, then save & close. - Original script: "C:\Staging\SecurePayments\Contactless_Upgrade\Scripts\Restart-AllTerminals.ps1"
+4. Reset POS Auto Login: Sets the POS auto login account to either admin or posuser. Reboots terminals afterward. - Original script: "C:\Staging\Reset_POSautologin\POSUpgrade\upgrade_all_pos.cmd"
+5. Install Crewlink on POS: Installs Kiosk Monitor 1.8.5.0 on the POS, then reboots the POS after 5 mins to fully install Crewlink. - Original script: "C:\Staging\_UUUUconfig_PRIVATE\CrewLink_0.Deploy&InstallOnPOS.cmd"
+6. Remove Crewlink from POS: Removes either kiosk bundle or the bundle & monitor, with optional reboot. If ran while Crewlink is running, Crewlink will stay open but cease to function. - Original script: "Remove-CrewlinkApps.ps1" provided by NCR
+7. Fix Crewlink Installation Errors: Opens Crewlink installation log in new window, then prompts for where installation failed & runs appropriate fix. - Original script: "C:\Staging\_UUUUconfig_PRIVATE\Show-KioskBundleMenu.ps1"
+8. Get Bundle/Monitor Versions: Shows the version number of the following for the selected nodes: - Original script: "C:\kworking\Scripts\Get-TerminalVersions\Get-TerminalVersions.ps1"
+   • AmcKioskBundle
+   • AmcKioskMonitor
+   • AmcKioskElectron
+   • KioskWebApiService
+   • NCR_Templating.Engine
+   • NcrCashMachineService
+   • NCRCreditConnector
+   • NCRKioskApp
+   • NcrKioskService
+   • Retail Platform Software for Windows
+9. Get POS OS Version Report: Generates a report showing which OS POS are running (Win7 or Win10). Report will pop-up once script is ran, and can be viewed later at "C:\Staging\V.A.D.E.R\POS_OS_Version_Report.txt"
+10. Set POS Extended Display: Currently unavailable, still in development.
+11. Open File Transfer to POS: Opens the "C:" directory of the desired POS on the server for reading/transferring files.
+12. Restart Services on POS:  Opens a submenu
+   - 1. Restart Ingenico Bridge & Credit Connector: Restarts both services on the POS. If ran while Crewlink is running, the pin pad will reconnect.
+   - 2. Restart TeleQ & Radio Host Services: Restarts both services on the POS.
+   - 3. Toggle Kiosk Service ON/OFF: Toggles the NCR Kiosk service on/off. Crewlink will show "Device Service disconnected" while the service is off.
+
+Kiosk Menu:
+
+1. Launch Recursive Ping: Launches a constant ping to an ip address in a new window.
+2. Reboot Terminals: Duplicate of option 3 in POS menu.
+3. Reset Kiosk Auto Login: Sets the Kiosk auto login account to either admin, administrator, amcptuser, or kioskuser. Reboots terminals afterward. - Original script: "C:\Staging\Reset_POSautologin\POSUpgrade\upgrade_all_pos.cmd"
+4. Update Kiosk Banners: Updates the kiosk banners, will reboot afterward. - Original script: "C:\Staging\_UUUUconfig_PRIVATE\Deploy-Marquees\Deploy-Marquees.ps1"
+5. Remove Kiosk Bundle/Monitor: Duplicate of option 6 in POS menu.
+6. Fix Kiosk Bundle Installation Errors: Duplicate of option 7 in POS menu.
+7. Get Bundle/Monitor Versions: Duplicate of option 8 in POS menu.
+8. Get Kiosk OS Version Report: Duplicate of option 9 in POS menu. Report will pop-up once script is ran, and can be viewed later at "C:\Staging\V.A.D.E.R\KIOSK_OS_Version_Report.txt"
+9. Open File Transfer to Kiosk: Duplicate of option 11 in POS menu.
+
+Pin Pad Menu:
+
+1. Open Trace Folder: Opens "C:\postilion\eSocket.POS\trace" in a new window.
+2. Open Ingenicorba Folder: Opens "C:\postilion\eSocket.POS\ingenicorba" in a new window.
+3. Load PED Files to eSocket Folder: Loads all PED files to the "C:\postilion\eSocket.POS\ingenicorba" directory. - Original script: "C:\Staging\PED_Files\Deploy_PED_Media_Files.bat"
+4. Remove PED Files from eSocket Folder: Removes all PED files from the "C:\postilion\eSocket.POS\ingenicorba" directory. - Original script: "C:\Staging\PED_Files\Remove-PEDFiles.ps1"
+5. Reboot PED's: Reboots the PED on the selected nodes (Same as physical reboot using buttons, requires PED in good state). - Original script: "C:\Staging\SecurePayments\Contactless_Upgrade\Scripts\Restart-PED.ps1"
+6. Get Lane Profiles: Displays the lane profile configuration for PED's on all nodes. - Original script: "C:\Staging\SecurePayments\Contactless_Upgrade\Scripts\Get-eSocketDownloads.ps1"
+7. Get PED Firmware Versions: Shows the Application (Firmware) version of PED's for selected nodes. - Original script: "C:\Staging\SecurePayments\Contactless_Upgrade\Scripts\Get-PEDHealthStat.ps1"
+
+Server Menu:
+
+1. Services: Opens a submenu
+   - 1. *Fix All Services: Checks all services with an automatic startup type (minus exceptions) and starts them if they are stopped. See the * below for more info.
+   - 2. Restart eSocket.POS: Restarts the eSocket.POS service on the server.
+   - 3. Restart eSocket.POS Config Agent: Restarts the eSocket.POS Config Agent service on the server.
+   - 4. Restart eSocket.POS Upgrade Manager: Restarts the eSocket.POS Upgrade Manager service on the server.
+   - 5. Restart Loyalty: Restarts The Alchemy Remote Core & Sigma services on the server.
+   - 6. Restart UC4 & Update POS: Restarts The UC4 service on the server and runs UpdatePOS (Does not generate new files, uses files that were generated last.)
+
+2. Run Update POS: Runs UpdatePOS as if from Radiant. Does not generate new files, uses files that were generated last. - Original file: "C:\Staging\UpdatePOS.exe"
+
+*Server Menu - Fix All Services. List of services that will not be started:
+   - 1. Downloaded Maps Manager
+   - 2. Google Update Service (gupdate)
+   - 3. Connected Devices Platform Service
+   - 4. Software Protection
+   - 5. Remote Registry
+   - 6. Windows Biometric Service
+   - 7. Sync Host
+   - 8. Background Intelligent Transfer Service
+   - 9. Microsoft Edge Update Service
+
+Best,
+-David Letts
